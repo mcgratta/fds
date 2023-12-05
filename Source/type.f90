@@ -2041,4 +2041,17 @@ TYPE EDGE_TYPE
    LOGICAL :: EXTERNAL=.FALSE.                                !< Edge is at the edge of the mesh
 END TYPE EDGE_TYPE
 
+
+TYPE HOODS_TYPE
+   REAL(EB) :: XS     !< Minimum x extent of user-specified neighborHOOD
+   REAL(EB) :: XF     !< Maximum x extent of user-specified neighborHOOD
+   REAL(EB) :: YS     !< Minimum y extent of user-specified neighborHOOD
+   REAL(EB) :: YF     !< Maximum y extent of user-specified neighborHOOD
+   REAL(EB) :: ZS     !< Minimum z extent of user-specified neighborHOOD
+   REAL(EB) :: ZF     !< Maximum z extent of user-specified neighborHOOD
+END TYPE HOODS_TYPE
+
+INTEGER :: N_HOODS
+TYPE(HOODS_TYPE), ALLOCATABLE, DIMENSION(:) :: HOODS
+
 END MODULE TYPES

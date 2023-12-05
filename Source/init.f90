@@ -3750,7 +3750,13 @@ FIND_BACK_WALL_CELL: DO  ! Look for the back wall cell; that is, the wall cell o
       IF (KK==OM%KBP1) ZZC = OM%Z(KK-1) + MESH_SEPARATION_DISTANCE
       CALL SEARCH_OTHER_MESHES(XXC,YYC,ZZC,NOM,II,JJ,KK)
       IF (NOM>0) THEN
-         IF (.NOT.PROCESS_MESH_NEIGHBORHOOD(NOM)) RETURN  ! If NOM not controlled by current MPI process, abandon search
+         IF (.NOT.PROCESS_MESH_NEIGHBORHOOD(NOM)) THEN  ! If NOM not controlled by current MPI process, abandon search
+            IF (SF%BACKING==EXPOSED) THEN
+               MESSAGE = 'ERROR: SURF '//TRIM(SURFACE(WC%SURF_INDEX)%ID)//' requires a neighborHOOD. See Users Guide for details.'
+               CALL SHUTDOWN(MESSAGE,PROCESS_0_ONLY=.FALSE.)
+            ENDIF
+            RETURN
+         ENDIF
          OM => MESHES(NOM)
       ELSEIF (IW<=M%N_EXTERNAL_WALL_CELLS .AND. (SF%HT_DIM>1.OR.SF%VARIABLE_THICKNESS)) THEN 
          ! Do not apply HT3D to VARIABLE_THICKNESS exterior boundary
