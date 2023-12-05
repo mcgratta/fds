@@ -1013,15 +1013,20 @@ DO NM=1,NMESHES
       NEIGHBOR_LIST(M%N_NEIGHBORING_MESHES) = NM2
    ENDDO
 
+   ! Add to the list of Mesh NM neighbors those meshes that are in the user-specified neighborHOOD.
+
    HOOD_LOOP: DO NH=1,N_HOODS
-      MESH_LOOP_2: DO NM2=1,NMESHES
+      IF (M%XS>HOODS(NH)%XF .OR. M%XF<HOODS(NH)%XS .OR. &
+          M%YS>HOODS(NH)%YF .OR. M%YF<HOODS(NH)%YS .OR. &
+          M%ZS>HOODS(NH)%ZF .OR. M%ZF<HOODS(NH)%ZS) CYCLE HOOD_LOOP  ! Mesh NM is not in the neighborHOOD
+      MESH_LOOP_2: DO NM2=1,NMESHES  ! Find other meshes that are in the neighborHOOD
          DO I=1,M%N_NEIGHBORING_MESHES
-            IF (NM2==NEIGHBOR_LIST(I)) CYCLE MESH_LOOP_2
+            IF (NM2==NEIGHBOR_LIST(I)) CYCLE MESH_LOOP_2  ! Mesh NM2 is already in the neighborhood of Mesh NM
          ENDDO
          M2 => MESHES(NM2)
          IF (M2%XS>HOODS(NH)%XF .OR. M2%XF<HOODS(NH)%XS .OR. &
              M2%YS>HOODS(NH)%YF .OR. M2%YF<HOODS(NH)%YS .OR. &
-             M2%ZS>HOODS(NH)%ZF .OR. M2%ZF<HOODS(NH)%ZS) CYCLE MESH_LOOP_2
+             M2%ZS>HOODS(NH)%ZF .OR. M2%ZF<HOODS(NH)%ZS) CYCLE MESH_LOOP_2  ! Mesh NM2 is not in the neighborHOOD
          M%N_NEIGHBORING_MESHES = M%N_NEIGHBORING_MESHES + 1
          NEIGHBOR_LIST(M%N_NEIGHBORING_MESHES) = NM2
       ENDDO MESH_LOOP_2
