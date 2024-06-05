@@ -3782,7 +3782,6 @@ FIND_BACK_WALL_CELL: DO  ! Look for the back wall cell; that is, the wall cell o
             ENDIF
          ENDDO
          IF (.NOT.SUCCESS) THEN
-write(0,*) nm,bc%iig,bc%jjg,bc%kkg,bc%ior
             WRITE(MESSAGE,'(3A)') 'ERROR(368): SURF ',TRIM(SF%ID),' has a problem with VARIABLE_THICKNESS or HT3D.'
             CALL SHUTDOWN(MESSAGE,PROCESS_0_ONLY=.FALSE.) ; RETURN
          ENDIF
