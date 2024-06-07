@@ -702,6 +702,7 @@ TYPE REACTION_TYPE
    REAL(EB), ALLOCATABLE, DIMENSION(:) :: THIRD_EFF       !< Third body collision efficiencies
    REAL(EB), ALLOCATABLE, DIMENSION(:) :: THIRD_EFF_READ  !< Holding array for THIRD_EFF
    REAL(EB), ALLOCATABLE, DIMENSION(:) :: DELTA_G         !< The DELTA_G(T) array for a reverse reaction pair
+   REAL(EB), ALLOCATABLE, DIMENSION(:) :: DELTA_S         !< The DELTA_S(T) array for a reverse reaction pair (entropy)
    INTEGER, ALLOCATABLE, DIMENSION(:) :: N_S_INDEX        !< Primitive species indices for N_S
    INTEGER, ALLOCATABLE, DIMENSION(:) :: N_S_INT          !< Array of species exponents
    INTEGER, ALLOCATABLE, DIMENSION(:) :: NU_INDEX         !< Lumped species indices for N_S
@@ -946,12 +947,16 @@ TYPE SURFACE_TYPE
    LOGICAL :: INERT_Q_REF                            !< Treat REFERENCE_HEAT_FLUX as an inert atmosphere test
    LOGICAL :: ALLOW_UNDERSIDE_PARTICLES=.FALSE.      !< Allow droplets to move along downward facing surfaces
    LOGICAL :: ALLOW_SURFACE_PARTICLES=.TRUE.         !< Allow particles to live on a solid surface
-   LOGICAL :: OXIDATION=.FALSE.                      !< Indiates if char oxidation occurs on the surface or inside
    INTEGER :: GEOMETRY,BACKING,PROFILE,HEAT_TRANSFER_MODEL=0,NEAR_WALL_TURB_MODEL=5
    CHARACTER(LABEL_LENGTH) :: PART_ID
    CHARACTER(LABEL_LENGTH) :: ID,TEXTURE_MAP,LEAK_PATH_ID(2)
    CHARACTER(MESSAGE_LENGTH) :: FYI='null'
    CHARACTER(LABEL_LENGTH), DIMENSION(10) :: INIT_IDS='null'
+
+   ! 1D mass transfer
+
+   REAL(EB), DIMENSION(MAX_LAYERS,MAX_SPECIES) :: LAYER_SPEC_FRAC
+   REAL(EB), ALLOCATABLE, DIMENSION(:,:) :: PHIRHOZ_0
 
    ! Level Set Firespread
 
@@ -1601,8 +1606,8 @@ TYPE INITIALIZATION_TYPE
    INTEGER :: RAMP_Q_INDEX=0                                     !< Ramp index for HRRPUV
    INTEGER :: RAMP_PART_INDEX=0                                  !< Ramp index for MASS_PER_TIME or MASS_PER_VOLUME
    INTEGER :: RAMP_TMP_Z_INDEX=0                                 !< Ramp index for temperature vertical profile (K)
-   INTEGER :: RAMP_MF_Z_INDEX(MAX_SPECIES)=0                     !< Ramp index for species mass fraction vertical profile
-   INTEGER :: RAMP_VF_Z_INDEX(MAX_SPECIES)=0                     !< Ramp index for species volume fraction vertical profile
+   INTEGER, ALLOCATABLE, DIMENSION(:) :: RAMP_MF_Z_INDEX         !< Ramp index for species mass fraction vertical profile
+   INTEGER, ALLOCATABLE, DIMENSION(:) :: RAMP_VF_Z_INDEX         !< Ramp index for species volume fraction vertical profile
    LOGICAL :: ADJUST_INITIAL_CONDITIONS=.FALSE.
    LOGICAL :: VOLUME_FRACTIONS_SPECIFIED=.FALSE.
    LOGICAL :: MASS_FRACTIONS_SPECIFIED=.FALSE.
