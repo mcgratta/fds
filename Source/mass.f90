@@ -444,7 +444,17 @@ CASE(.TRUE.) PREDICTOR_STEP
 
    ! Add gas production source term
 
-   IF (ALLOCATED(MESHES(NM)%M_DOT_PPP)) ZZS = ZZS + DT*M_DOT_PPP
+   IF (ALLOCATED(MESHES(NM)%M_DOT_PPP)) THEN
+      DO N=1,N_TOTAL_SCALARS
+         DO K=0,KBP1
+            DO J=0,JBP1
+               DO I=0,IBP1
+                  ZZS(I,J,K,N) = ZZS(I,J,K,N) + DT*M_DOT_PPP(I,J,K,N)
+               ENDDO
+            ENDDO
+         ENDDO
+      ENDDO
+   ENDIF
 
    ! Manufactured solution
 
@@ -605,7 +615,15 @@ CASE(.FALSE.) PREDICTOR_STEP  ! CORRECTOR step
    ! Add gas production source term
 
    IF (ALLOCATED(MESHES(NM)%M_DOT_PPP)) THEN
-      ZZ = ZZ + 0.5_EB*DT*M_DOT_PPP
+      DO N=1,N_TOTAL_SCALARS
+         DO K=0,KBP1
+            DO J=0,JBP1
+               DO I=0,IBP1
+                  ZZ(I,J,K,N) = ZZ(I,J,K,N) + 0.5_EB*DT*M_DOT_PPP(I,J,K,N)
+               ENDDO
+            ENDDO
+         ENDDO
+      ENDDO
       IF (.NOT. CC_IBM) THEN ! We will use these for Regular cells in cut-cell region in CC_DENSITY.
          M_DOT_PPP = 0._EB
          D_SOURCE  = 0._EB
