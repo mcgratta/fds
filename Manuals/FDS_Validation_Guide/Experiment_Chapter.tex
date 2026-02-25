@@ -1011,6 +1011,18 @@ Note that the full-scale test with plywood lining is included in the validation 
 The National Institute of Justice (NIJ) sponsored a series of experiments to develop a systematic approach to quantify material and reaction property inputs for accurate computer fire models~\cite{Lattimer:NIJ19}. The research focused on identifying the optimal experiments to use in determining these properties to minimize the variability in the determination through optimization. TGA experiments at three heating rates, cone calorimeter experiments at three thermal exposures in accordance with ASTM E1354, and MCC experiments with four oxygen concentrations in accordance with ASTM D7309-13 were conducted on seven diverse materials. The materials studied in this work included black poly(methyl methacrylate) (PMMA), fiberglass reinforced plastic (FRP), medium-density fibreboard (MDF), white pine, white spruce, cardboard, and oriented strand board (OSB). The cone calorimeter experiments from this study are used in validation of the scaling-based pyrolysis model.
 
 
+\section{JIS Facade Experiments}
+\label{JIS_Facade_Description}
+
+Sun et~al.~\cite{Sun:FAM2024} describe experiments in a large-scale facade apparatus based on the Japanese Industrial Standard (JIS)~A~1310. The fire compartment for this test is 1.35~m by 1.35~m by 1.35~m with a 0.91~m by 0.91~m opening. The 0.6~m by 0.6~m propane burner is flush with the floor at the rear of the compartment with nominal heat release rates of 600~kW, 750~kW, and 900~kW.
+
+\subsubsection{Modeling Notes}
+
+Ref.~\cite{Sun:FAM2024} reports the volume flow of propane at 20~$^\circ$C and 1~atm to be 433~L/min, 541~L/min, and 649~L/min. Assuming that propane has a heat of combustion of approximately 46.4~MJ/kg, the specified HRR in the simulation is approximately 613~kW, 766~kW, and 919~kW.
+
+A two-step combustion mechanism is implemented for propane. In the first reaction, fuel is converted to CO, soot, H$_2$, and H$_2$O. In the second reaction, the CO, soot, and H$_2$ are converted to CO$_2$ and H$_2$O. Both reactions employ fast kinetics, but proceed in series, not in parallel. The fraction of carbon atoms converted to CO in the first step is 0.75. One half of the hydrogen atoms are converted to H$_2$ in the first step. This same scheme has been used to model the NIST Pool Fires cases, Sec.~\ref{NIST_Pool_Fires_Description}. In addition, the radiative fraction is {\em not} specified---emission is governed by the local temperature and species composition. Post-flame yields of soot and CO are set to 0.019 and 0.005, respectively, based on Table~A.40 of the SFPE Handbook~\cite{SFPE}.
+
+
 \section{Kashiwagi Gasification}
 \label{Kashiwagi_Gasification_Description}
 
@@ -3020,15 +3032,10 @@ The compartment dimension were 4.0~m by 4.0~m by 1.7~m. Note that the dimensions
 
 A mixture of gaseous fuels supplied by the local utility was used as a fuel. It was supplied to the compartment through four, room-wide burner pipes with holes on the top surface, approximately 20~cm above the floor. The experiments were conducted in three series, named I, 1 and 2. For each, multiple fires were generated between which changes were made to the ventilation and HRR. The test duration was 5~min with 10~min of cooling between each.
 
-A second set of experiments was performed in this facility by Sun et~al.~\cite{Sun:FAM2024} using a configuration based on the JIS~A~1310 test standard. The fire compartment for this test is 1.35~m by 1.35~m by 1.35~m with a 0.91~m by 0.91~m opening. The 0.6~m by 0.6~m propane burner is flush with the floor at the rear of the compartment with nominal heat release rates of 600~kW, 750~kW, and 900~kW.
-
 \subsubsection{Modeling Notes}
 
 Gleb Bytskov at the University of Aalto, Finland, performed numerical simulations of these experiments using FDS as part of his master's thesis~\cite{Bytskov:Thesis}. The grid resolution is 10~cm. The fuel is assumed to be propane with a soot yield of 0.015, CO yield of 0.015, and radiative fraction of 0.20.
 
-The JIS~A~1310 simulations use propane with an assumed radiative fraction of 0.30. Ref.~\cite{Sun:FAM2024} reports the volume flow of propaneat 20~$^\circ$C and 1~atm to be 433~L/min, 541~L/min, and 649~L/min. Assuming that propane has a heat of combustion of approximately 46.4~MJ/kg, the specified HRR in the simulation is 613~kW, 766~kW, and 919~kW.
-
-A two-step combustion mechanism is implemented for propane. In the first reaction, fuel is converted to CO, soot, H$_2$, and H$_2$O. In the second reaction, the CO, soot, and H$_2$ are converted to CO$_2$ and H$_2$O. Both reactions employ fast kinetics, but proceed in series, not in parallel. The fraction of carbon atoms converted to CO in the first step is 0.75. One half of the hydrogen atoms are converted to H$_2$ in the first step. This same scheme has been used to model the NIST Pool Fires cases~\ref{NIST_Pool_Fires_Description}. In addition, the radiative fraction is {\em not} specified---emission is dictates by the local temperature and species compoosition. Post-flame yields of soot and CO are set to 0.019 and 0.005, respectively, based on Table~A.40 of the SFPE Handbook~\cite{SFPE}.
 
 
 \section{UL/NIST Vent Experiments}
