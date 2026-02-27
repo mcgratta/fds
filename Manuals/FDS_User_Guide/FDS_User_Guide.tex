@@ -2753,7 +2753,7 @@ Sometimes modeling a fire that spreads radially at some specified rate is desire
 &RAMP ID='fireramp', T= 1.0, F=1.0 /
 &RAMP ID='fireramp', T=30.0, F=1.0 /
 &RAMP ID='fireramp', T=31.0, F=0.0 /
-&VENT XB=0.0,5.0,1.5,9.5,0.0,0.0, SURF_ID='FIRE', XYZ=1.5,4.0,0.0, 
+&VENT XB=0.0,5.0,1.5,9.5,0.0,0.0, SURF_ID='FIRE', XYZ=1.5,4.0,0.0,
       SPREAD_RATE=0.03 /
 \end{lstlisting}
 create a rectangular area via the \ct{VENT} line on which the fire starts at the point (1.5,4.0,0.0) and spreads outward at a rate of 0.03~m/s. Each surface cell burns for 30~s as the fire spreads outward, creating a widening ring of fire. Note that the \ct{RAMP_Q} is used to turn the burning on and off to simulate the consumption of fuel as the fire spreads radially. It should not be used to mimic a $t$-squared fire growth rate -- the whole point of the exercise is to mimic this curve in a more natural way. Eventually, the fire goes out as the ring grows past the boundary of the rectangle. Some trial and error is probably required to find the \ct{SPREAD_RATE} that leads to a desired time history of the heat release rate.
@@ -2981,7 +2981,7 @@ When in doubt about the values of these various parameters, just specify the \ct
       HEAT_OF_COMBUSTION(1)    = ...
       HEAT_OF_REACTION(1)      = ... /
 \end{lstlisting}
-Note that the indices have been added to the reaction parameters to emphasize the fact that these parameters are stored in arrays of length equal to \ct{N_REACTIONS}. If there is only one reaction, the \ct{(1)} may be omitted, but using it anyways ensures consistency. 
+Note that the indices have been added to the reaction parameters to emphasize the fact that these parameters are stored in arrays of length equal to \ct{N_REACTIONS}. If there is only one reaction, the \ct{(1)} may be omitted, but using it anyways ensures consistency.
 
 \subsubsection{Example: Modeling Upholstered Furnishings}
 \label{couch}
@@ -3405,7 +3405,7 @@ Details of the output quantities are discussed in Sec.~\ref{info:material_compon
 
 Results for an analysis (\ct{Pyrolysis/tga_analysis.fds}) of a simplified version of wood are shown in Fig.~\ref{tga_results}. The sample, referred to as ``wet wood'', contains 10~\% ``water'' by mass. It is heated at a rate of $\beta=5/60$~K/s and undergoes three reactions: the evaporation of ``water'', the conversion of ``dry wood'' to ``char'', and the conversion of ``char'' to ``ash''.
 
-The upper two plots in Fig.~\ref{tga_results} show the results of the TGA analysis; that is, the decrease in mass as a function of sample temperature. The left plot shows the total sample mass and the right shows the individual components. 
+The upper two plots in Fig.~\ref{tga_results} show the results of the TGA analysis; that is, the decrease in mass as a function of sample temperature. The left plot shows the total sample mass and the right shows the individual components.
 
 The middle two plots that show the mass loss rates of the total sample and its components. These plots are simply the (negative) values of the first derivative of the upper plots.
 
@@ -3708,13 +3708,13 @@ The second method is setting the keyword \ct{HVAC_LOCAL_PRESSURE} on the \ct{MIS
 A typical input line specifying a duct is as follows:
 \begin{lstlisting}
 &HVAC TYPE_ID='DUCT', ID='ductname', NODE_ID='node 1','node 2', AREA=3.14,
-      LOSS=1.,1., LENGTH=2., ROUGHNESS=0.001, FAN_ID='fan 1', 
+      LOSS=1.,1., LENGTH=2., ROUGHNESS=0.001, FAN_ID='fan 1',
       DEVC_ID='device 1' /
 \end{lstlisting}
 Or, if you are using HVAC mass transport, as follows:
 \begin{lstlisting}
 &HVAC TYPE_ID='DUCT', ID='ductname', NODE_ID='node 1','node 2', AREA=3.14,
-      LOSS=1.,1., LENGTH=2., ROUGHNESS=0.001, FAN_ID='fan 1', 
+      LOSS=1.,1., LENGTH=2., ROUGHNESS=0.001, FAN_ID='fan 1',
       DEVC_ID='device 1', N_CELLS=200 /
 \end{lstlisting}
 where:
@@ -4341,7 +4341,7 @@ $\dot Q_0$ is the user-specified heat release rate. If the fire ramps up followi
 \end{lstlisting}
 Here, \ct{T} is the time, and \ct{F} indicates the fraction of the heat release rate, wall temperature, velocity, mass fraction, etc., to apply. Linear interpolation\footnote{By default, FDS uses a linear interpolation routine to find time or temperature-dependent values between user-specified points. The default number of interpolation points is 5000, more than enough for most applications. However, you can change this value by specifying \ct{NUMBER_INTERPOLATION_POINTS} on any \ct{RAMP} line.} is used to fill in intermediate time points. Note that each set of \ct{RAMP} lines must have a unique \ct{ID} and that the lines must be listed with monotonically increasing \ct{T}. Note also that the \ct{TAU}s and the \ct{RAMP}s are mutually exclusive. For a given surface quantity, both cannot be prescribed. As an example, a simple blowing vent can be controlled via the lines:
 \begin{lstlisting}
-&SURF ID='BLOWER', VEL=-1.2, TMP_FRONT=50., RAMP_V='BLOWER RAMP', 
+&SURF ID='BLOWER', VEL=-1.2, TMP_FRONT=50., RAMP_V='BLOWER RAMP',
       RAMP_T='HEATER RAMP' /
 &RAMP ID='BLOWER RAMP', T= 0.0, F=0.0 /
 &RAMP ID='BLOWER RAMP', T=10.0, F=1.0 /
@@ -4498,7 +4498,7 @@ Note that while you can define as many species using \ct{SPEC} as you wish in an
 Each \ct{SPEC} line should include at the very least the name of the species via a character string, \ct{ID}. Once the extra species has been declared, you introduce it at surfaces via the parameters \ct{MASS_FRACTION(:)} or \ct{MASS_FLUX(:)} along with the character array \ct{SPEC_ID(:)}. A very simple example of how a gas can be introduced into the simulation is given by the simple input file called \ct{gas_filling.fds}. The relevant lines are as follows:
 \begin{lstlisting}
 &SPEC ID='HYDROGEN' /
-&SURF ID='LEAK', SPEC_ID(1)='HYDROGEN', MASS_FLUX(1)=0.01667, 
+&SURF ID='LEAK', SPEC_ID(1)='HYDROGEN', MASS_FLUX(1)=0.01667,
       RAMP_MF(1)='leak_ramp' /
 &RAMP ID='leak_ramp', T=  0., F=0.0 /
 &RAMP ID='leak_ramp', T=  1., F=1.0 /
@@ -9388,24 +9388,24 @@ It is possible for the pressure iteration scheme to seem ``stuck''---the solutio
 
 The default Poisson solver in FDS (\ct{SOLVER='FFT'} on the \ct{PRES} line) is based on the package of linear algebra routines called CrayFishpak. However, in certain circumstances you may need to use one of several alternatives that is based on the Intel\textsuperscript{\textregistered} MKL Sparse Cluster Solver or the HYPRE solver library from Lawrence Livermore National Laboratories (LLNL) \cite{HYPRE}.
 \begin{itemize}
-\item \ct{SOLVER='ULMAT'}  This solver is useful when the computational domain has relatively small, sealed cavities enclosed with thin (i.e. zero cell thick) walls. The small error in the normal component of velocity that you incur with the FFT solver can lead to unphysical changes in temperature, density and pressure that may eventually cause the calculation to become numerically unstable. For example, suppose you have hollow steel columns or hollow aluminum ducts with thin walls and you want to simulate the heat penetration within these spaces.
+\item \ct{SOLVER='ULMAT'} This solver is useful when the computational domain has relatively small, sealed cavities enclosed with thin (i.e. zero cell thick) walls. The small error in the normal component of velocity that you incur with the FFT solver can lead to unphysical changes in temperature, density and pressure that may eventually cause the calculation to become numerically unstable. For example, suppose you have hollow steel columns or hollow aluminum ducts with thin walls and you want to simulate the heat penetration within these spaces.
 
 With the \ct{ULMAT} solver, the unknown values of the pressure live only in gas-phase cells, allowing for the normal components of velocity at a solid surface to be computed exactly with no penetration error. Strictly speaking, in this mode, FDS is no longer using an ``immersed boundary method'' for flow obstructions---the pressure solution is now ``unstructured,'' hence the \ct{U} in its name. This solver does not guarantee that the normal component of velocity matches perfectly at mesh boundaries, and the iterative procedure used by the default \ct{'FFT'} solver is still used to drive the mesh interface velocity normals closer together. This solver option does allow for refinement at mesh boundaries and for internal sealed regions within the domain for which additional matrices must be computed.
 
-The \ct{ULMAT} solver uses a substantial amount of memory per mesh. Its use should be limited to meshes of at most 150,000 cells. This number depends on the amount of random access memory (RAM) that you can devote to each MPI process, and you might want to experiment with larger meshes if you have, say, tens of gigabytes of RAM per MPI process.
+The default \ct{ULMAT} linear system solver is MKL Pardiso. You can also call this solver as \ct{SOLVER='ULMAT PARDISO'}. This solver uses a substantial amount of memory per mesh. Its use should be limited to meshes of at most 150,000 cells. This number depends on the amount of random access memory (RAM) that you can devote to each MPI process, and you might want to experiment with larger meshes if you have, say, tens of gigabytes of RAM per MPI process.
 
-\item \ct{SOLVER='ULMAT HYPRE'}  This solver uses the same strategy as ULMAT but the solver is implemented via LLNL's HYPRE library \cite{HYPRE}.  ULMAT HYPRE uses the algebraic multi-grid (AMG) preconditioned conjugate gradient (PCG) solver.  This solver does not require LU decomposition and storage of a dense matrix, so the memory requirements are much less than the MKL solver.  Hence, ULMAT HYPRE may be considered as an option for large mesh blocks (larger than 150,000 cells).  Note, however, that for small mesh blocks HYPRE is somewhat slower than MKL.
+\item \ct{SOLVER='ULMAT HYPRE'}  This solver uses the same strategy as ULMAT but the solver is implemented via LLNL's HYPRE library \cite{HYPRE}.  \ct{ULMAT HYPRE} uses the algebraic multi-grid (AMG) preconditioned conjugate gradient (PCG) solver.  This solver does not require LU decomposition and storage of a dense matrix, so the memory requirements are much less than the MKL solver.  Hence, \ct{ULMAT HYPRE} may be considered as an option for large mesh blocks (larger than 150,000 cells).  Note, however, that for small mesh blocks HYPRE is somewhat slower than MKL Pardiso.
 
-\item \ct{SOLVER='GLMAT'}  This solver is for non-overlapping, non-stretched meshes at the same refinement level covering a single connected domain, i.e., a large rectangular box. With this solver, the pressure in both solid and gas cells is computed using an immersed boundary method for flow obstructions, the same as the default \ct{'FFT'} solver.  This mode produces the exact same pressure solution as the \ct{'FFT'} solver would if the domain were one single mesh. That is, velocity errors at any mesh boundaries are eliminated. Note that currently a single discretization matrix is built for all gas cells defined on the model, therefore the solver is not meant to be used in cases where there are internal sealed regions within the domain.
+\item \ct{SOLVER='GLMAT'} With this solver, the pressure in both solid and gas cells is computed using an immersed boundary method for flow obstructions, the same as the default \ct{'FFT'} solver.  This mode produces the exact same pressure solution as the \ct{'FFT'} solver would if the domain were one single mesh. That is, velocity errors at any mesh boundaries are eliminated.
+The \ct{GLMAT} solver is used mainly for testing and diagnostics. The default linear system solver for \ct{GLMAT} is the HYPRE AMG preconditioned parallel PCG solver. The solver variants are \ct{SOLVER='GLMAT PARDISO'} and \ct{SOLVER='GLMAT HYPRE'} (default).
 
-The \ct{GLMAT} solver is used mainly for testing and diagnostics. Because it solves the pressure over the entire computational domain, it is limited to about 1~million cells total unless your computer has an extraordinary amount of RAM.
+\item \ct{SOLVER='UGLMAT'} This solver is used for non-overlapping meshes, and allows stretching and refinement. Like the solver \ct{'ULMAT'}, the unknown values of the pressure live only in gas-phase cells, allowing for the normal components of velocity at a solid surface to be computed exactly (no velocity penetration error). In addition, this solver ensures that the normal component of velocity matches perfectly at mesh boundaries. The default linear system solver for this solver is the HYPRE AMG preconditioned parallel PCG solver. You can also call this solver as \ct{SOLVER='UGLMAT HYPRE'}. It is CPU-intensive, but does not have the global mesh size limitation of \ct{UGLMAT PARDISO}.
 
-\item \ct{SOLVER='UGLMAT'} This solver is for non-overlapping, non-stretched meshes at the same refinement level. Like the solver \ct{'ULMAT'}, the unknown values of the pressure live only in gas-phase cells, allowing for the normal components of velocity at a solid surface to be computed exactly (no velocity penetration error). In addition, this solver ensures that the normal component of velocity matches perfectly at mesh boundaries. It is limited to about 1~million grid cells, and (3) it is the most CPU-intensive of the alternative solvers.
+\item \ct{SOLVER='UGLMAT PARDISO'} Performs the same global solution as \ct{'UGLMAT'} calling the MKL Sparse Cluster Solver. It is limited to about 1~million grid cells, and it is the most CPU-intensive of the alternative solvers.
 
-\item \ct{SOLVER='UGLMAT HYPRE'} Performs the same global solution as \ct{'UGLMAT'} calling the HYPRE algebraic multi-grid (AMG) preconditioned conjugate gradient (PCG) solver. It is also CPU-intensive, but does not have the global mesh size limitation of the previous method.
 
 \end{itemize}
-Because the \ct{'ULMAT','GLMAT','UGLMAT'} alternative methods are based on the Intel\textsuperscript{\textregistered} MKL parallel LU decomposition solver, they require computation and storage of global factorization matrices. Depending on the size of the problem, these operations can be expensive in terms of both CPU time and memory. It has been found suitable for problems with up to a million cells on a multi-core workstation with 64~GB of RAM.
+Because the \ct{'ULMAT PARDISO','GLMAT PARDISO','UGLMAT PARDISO'} alternative methods are based on the Intel\textsuperscript{\textregistered} MKL parallel LU decomposition solver, they require computation and storage of global factorization matrices. Depending on the size of the problem, these operations can be expensive in terms of both CPU time and memory. It has been found suitable for problems with up to a million cells on a multi-core workstation with 64~GB of RAM.
 
 
 \begin{landscape}
@@ -9421,13 +9421,13 @@ Because the \ct{'ULMAT','GLMAT','UGLMAT'} alternative methods are based on the I
 \midrule
 \rowcolor{lavender}
 FFT (default)     & \checkmark  & 2 directions  & \checkmark & \checkmark & iterative & iterative  & iterative \\
-ULMAT             & \checkmark  & \checkmark    & \checkmark & \checkmark & iterative & exact      & iterative \\
+ULMAT PARDISO$^6$     & \checkmark  & \checkmark    & \checkmark & \checkmark & iterative & exact      & iterative \\
 \rowcolor{lavender}
-ULMAT HYPRE$^6$   & \checkmark  & \checkmark    & \checkmark & \checkmark & iterative & exact      & iterative \\
-GLMAT             & $\times$    & $\times$      & \checkmark & \checkmark & exact     & iterative  & iterative \\
+ULMAT HYPRE$^7$   & \checkmark  & \checkmark    & \checkmark & \checkmark & iterative & exact      & iterative \\
+UGLMAT PARDISO    & \checkmark  & \checkmark    & \checkmark & \checkmark & exact     & exact      & iterative \\
 \rowcolor{lavender}
-UGLMAT            & \checkmark$^7$  & \checkmark    & \checkmark & \checkmark & exact     & exact      & iterative \\
-UGLMAT HYPRE$^{6,8}$  & \checkmark$^7$  & \checkmark    & \checkmark & \checkmark & exact     & exact      & iterative \\
+UGLMAT HYPRE$^{7,8}$  & \checkmark  & \checkmark    & \checkmark & \checkmark & exact     & exact      & iterative \\
+GLMAT             & \checkmark  & \checkmark      & \checkmark & \checkmark & exact     & iterative  & iterative \\
 % PFFT$^8$ (future) & $\times$    & 1 direction   & \checkmark & \checkmark & exact     & iterative  & iterative \\
 \bottomrule
 \end{tabular}
@@ -9440,9 +9440,9 @@ UGLMAT HYPRE$^{6,8}$  & \checkmark$^7$  & \checkmark    & \checkmark & \checkmar
         \item[$^3$] ``Velocity @ Mesh'' refers to errors in the normal component of velocity at mesh boundaries, so-called ``interpolated'' boundaries in FDS.  For inexact solvers, this error may be controlled using the parameter \ct{VELOCITY_TOLERANCE}.  Mass conservation errors are proportional to the velocity tolerance.  Solvers listed as ``exact'' are \emph{global} solvers.  ``Global'' refers to a global matrix solution, one matrix for the whole domain, as opposed to one matrix per mesh.  Thus, there are no mesh boundary errors for this type of solver.
         \item[$^4$] ``Velocity @ Solid'' refers to errors in the normal component of velocity at solid boundaries, so-called ``penetration'' errors that are present in \emph{immersed boundary methods} and lead to mass conservation errors.  These errors are particularly important to control for tightly sealed pressure zones. For inexact solvers, this error may be controlled using the parameter \ct{VELOCITY_TOLERANCE}. Mass conservation errors are proportional to the velocity tolerance.  Solvers listed as ``exact'' are \emph{unstructured} solvers.  ``Unstructured'' means the solid boundaries (e.g., \ct{OBST} boundaries) are treated as domain boundaries for the pressure Poisson equation.  Unstructured solvers are the opposite of \emph{immersed boundary methods}.
         \item[$^5$] ``Inseparability'' refers to handling the error compared to the solution of the \emph{inseparable} Poisson equation incurred by lagging the pressure in the baroclinic term.  This error may be controlled using the parameter \ct{PRESSURE_TOLERANCE}.
-        \item[$^6$] ULMAT and UGLMAT HYPRE use the HYPRE library developed at Lawrence Livermore National Laboratories (LLNL).  Use this variant if the Intel MKL library is not available \emph{or} if MKL runs out of memory or is too slow due to memory issues with large mesh blocks.  Our implementation of HYPRE uses an algebraic multi-grid (AMG) preconditioned conjugate gradient (PCG) method, which does not require excessive amounts of memory.
-        \item[$^7$] Refinement works for cases with Cartesian geometry (\ct{OBST}) only.
-        \item[$^8$] Use this variant of UGLMAT for cases where the total number of cells is greater than 1 million.
+        \item[$^6$] Default \ct{ULMAT} solver, recommended number of cells per mesh less than 150,000.
+        \item[$^7$] \ct{ULMAT HYPRE} and \ct{UGLMAT HYPRE} use the HYPRE library developed at Lawrence Livermore National Laboratories (LLNL).  Use this variant if the Intel MKL library is not available \emph{or} if MKL runs out of memory or is too slow due to memory issues with large mesh blocks.  Our implementation of HYPRE uses an algebraic multi-grid (AMG) preconditioned conjugate gradient (PCG) method, which does not require excessive amounts of memory.
+        \item[$^8$] Default \ct{UGLMAT} solver, addresses cases where the total number of cells is greater than 1 million.
         % \item[$^9$] PFFT stands for Parallel Fast Fourier Transform.  This solver is only possible for block structured domains.  The domain decomposition for the pressure solver differs from the transport solver.  It uses pencil-shaped domains that span each direction and thus perform FFT solves in each direction for the whole domain.  Data is transferred in each stage of the solution to the orthogonal directions.  This solver is \emph{global} but \emph{structured}.  So, mesh to mesh errors are eliminated but immersed boundary errors are not.
     \end{itemize}
 \end{tablenotes}
@@ -9454,11 +9454,11 @@ UGLMAT HYPRE$^{6,8}$  & \checkmark$^7$  & \checkmark    & \checkmark & \checkmar
 \subsection{Example Case: \ct{Pressure_Solver/duct_flow}}
 \label{duct_flow}
 
-To demonstrate how to improve the accuracy of the pressure solver, consider the flow of air through a square duct that crosses several meshes. In the sample input file, \ct{duct_flow.fds}, air is pushed through a 1 m$^2$ duct at 1~m/s. With no thermal expansion, the volume flow into the duct ought to equal the volume flow out of the duct. Figure~\ref{duct_flow_fig} displays the computed inflow and outflow as a function of time and the number of pressure iterations required. The default pressure solution strategy uses block-wise direct FFT solves combined with a direct forcing immersed boundary method to model flow obstructions.  Hence, there are two sources of pressure error: one at a mesh interface and one at a solid boundary.  The default pressure iteration scheme tries to drive both sources of error to the specified (or default) velocity tolerance. In the \ct{duct_flow} case, the \ct{VELOCITY_TOLERANCE} has been set to 0.001~m/s with \ct{MAX_PRESSURE_ITERATIONS} set to 1000 and the grid cell size is 0.2~m.  For the default scheme (FFT + IBM), the outflow does not match the inflow exactly because of inaccuracies at the solid and mesh boundaries.  We have also included the results using the \ct{'UGLMAT','UGLMAT HYPRE'} solvers with an unstructured pressure matrix, which allows the flow solver to enforce the impermeability condition (zero normal component of velocity) at a solid boundary.
+To demonstrate how to improve the accuracy of the pressure solver, consider the flow of air through a square duct that crosses several meshes. In the sample input file, \ct{duct_flow.fds}, air is pushed through a 1 m$^2$ duct at 1~m/s. With no thermal expansion, the volume flow into the duct ought to equal the volume flow out of the duct. Figure~\ref{duct_flow_fig} displays the computed inflow and outflow as a function of time and the number of pressure iterations required. The default pressure solution strategy uses block-wise direct FFT solves combined with a direct forcing immersed boundary method to model flow obstructions.  Hence, there are two sources of pressure error: one at a mesh interface and one at a solid boundary.  The default pressure iteration scheme tries to drive both sources of error to the specified (or default) velocity tolerance. In the \ct{duct_flow} case, the \ct{VELOCITY_TOLERANCE} has been set to 0.001~m/s with \ct{MAX_PRESSURE_ITERATIONS} set to 1000 and the grid cell size is 0.2~m.  For the default scheme (FFT + IBM), the outflow does not match the inflow exactly because of inaccuracies at the solid and mesh boundaries.  We have also included the results using the \ct{'UGLMAT PARDISO','UGLMAT HYPRE'} solvers with an unstructured pressure matrix, which allows the flow solver to enforce the impermeability condition (zero normal component of velocity) at a solid boundary. Defining the solver as \ct{'UGLMAT'} defaults to \ct{'UGLMAT HYPRE'}:
 \begin{lstlisting}
 &PRES SOLVER='UGLMAT' /
 \end{lstlisting}
-As seen in Fig.~\ref{duct_flow_fig}, the volume flow matches perfectly and the number of required pressure iterations is one.  Whether this pressure solver strategy is most efficient depends on the problem and the required error tolerance.  In this particular case, the \ct{'UGLMAT'} case runs about 25 \% faster than the default FFT case, and it is more accurate. The reason is that a tight tolerance has been specified and the FFT solver is forced to iterate tens or hundreds of times per time step. When run with default error tolerances, the \ct{'FFT'} solver is faster, but less accurate, than the alternative solvers.
+As seen in Fig.~\ref{duct_flow_fig}, the volume flow matches perfectly and the number of required pressure iterations is one.  Whether this pressure solver strategy is most efficient depends on the problem and the required error tolerance.  In this particular case wall times are similar, but \ct{'UGLMAT'} is more accurate. When run with default error tolerances, the \ct{'FFT'} solver is faster, but less accurate, than the alternative solvers.
 
 \begin{figure}[ht]
 \begin{center}
@@ -9473,7 +9473,7 @@ As seen in Fig.~\ref{duct_flow_fig}, the volume flow matches perfectly and the n
 \subsection{Example Case: \ct{Pressure_Solver/dancing_eddies}}
 \label{dancing_eddies}
 
-In this example, air is pushed through a 30~cm long, two-dimensional channel at 0.5~m/s. A plate obstruction normal to the flow creates a Karman vortex street. The computational domain is divided into 4 meshes. Six simulations are performed: one in which the \ct{VELOCITY_TOLERANCE} is set to the default value, one in which it is set to a relatively small value, two using \ct{'ULMAT'} and \ct{'ULMAT HYPRE'}, and two where \ct{'UGLMAT'} and \ct{'UGLMAT HYPRE'} are used. Figure~\ref{dancing_eddies_figure} shows the downstream pressure histories for these cases compared to a simulation that uses only one mesh. The case with the tighter tolerance produces a better match to the single mesh solution, but at a higher computational cost---about a factor of 2.5 .  The \ct{SOLVER='UGLMAT'} case takes just a little longer than the default---by a factor of 1.25---but the error is machine precision.  These cases used MPI for domain decomposition, but only a single OpenMP thread.  Note, however, that the \ct{'UGLMAT'} solver is threaded, whereas currently the \ct{'FFT'} solver (FDS default) is not.
+In this example, air is pushed through a 30~cm long, two-dimensional channel at 0.5~m/s. A plate obstruction normal to the flow creates a Karman vortex street. The computational domain is divided into 4 meshes. Six simulations are performed: one in which the \ct{VELOCITY_TOLERANCE} is set to the default value, one in which it is set to a relatively small value, two using \ct{'ULMAT'} and \ct{'ULMAT HYPRE'}, and two where \ct{'UGLMAT PARDISO'} and \ct{'UGLMAT HYPRE'} are used. Figure~\ref{dancing_eddies_figure} shows the downstream pressure histories for these cases compared to a simulation that uses only one mesh. The case with the tighter tolerance produces a better match to the single mesh solution, but at a higher computational cost---about a factor of 2.5 .  The \ct{SOLVER='UGLMAT PARDISO'} case takes just a little longer than the default---by a factor of 1.25---but the error is machine precision.  These cases used MPI for domain decomposition, but only a single OpenMP thread.  Note, however, that the \ct{'UGLMAT'} solvers are threaded, whereas currently the \ct{'FFT'} solver (FDS default) is not.
 
 \begin{figure}[ht]
 \begin{center}
